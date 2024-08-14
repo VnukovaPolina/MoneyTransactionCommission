@@ -1,0 +1,8 @@
+package ru.netology
+
+fun main() {
+    val amount = 750.0
+    val commission: Double = if (0.075 * amount > 35.0) 0.075 * amount else 35.0
+
+    println(commission)
+}
