@@ -19,8 +19,8 @@ fun main() {
     }
 }
 
-fun calculateCommission(cardType : String, previousTransactionsAmount : Double, amountForTransaction : Double) : Double {
-    if (amountForTransaction > maxSumPerDay || previousTransactionsAmount > maxSumPerMonth) {
+fun calculateCommission(cardType : String = "МИР", previousTransactionsAmount : Double = 0.0, amountForTransaction : Double) : Double {
+    if (amountForTransaction > maxSumPerDay || previousTransactionsAmount > maxSumPerMonth || (previousTransactionsAmount + amountForTransaction) > maxSumPerMonth) {
         return -1.0
     }
 
@@ -29,8 +29,8 @@ fun calculateCommission(cardType : String, previousTransactionsAmount : Double, 
             when {
                 previousTransactionsAmount > MastercardMonthlyLimit -> return amountForTransaction * 0.006 + 20
 
-                previousTransactionsAmount < MastercardMonthlyLimit && amountForTransaction > MastercardMonthlyLimit ->
-                    return (amountForTransaction - MastercardMonthlyLimit) * 0.006 + 20
+                (previousTransactionsAmount + amountForTransaction) > MastercardMonthlyLimit ->
+                    return (amountForTransaction + previousTransactionsAmount - MastercardMonthlyLimit) * 0.006 + 20
 
                 else -> return 0.0
             }
